@@ -30,9 +30,11 @@ class Config extends AbstractConfig {
   ///
   ///
   int wsVersion = 1;
+  String endpoint = '';
+  String download = '';
   int smallTimeout = 30000;
   String customer = 'bintech';
-  String name = 'BinTech';
+  String name = 'Debug-auto-complete';
   bool dark = false;
   Color alertColor = Colors.red;
   MaterialColor baseColor = Colors.amber;
