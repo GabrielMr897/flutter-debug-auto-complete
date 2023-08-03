@@ -14,8 +14,10 @@ import 'package:folly_fields/widgets/folly_dialogs.dart';
 ///
 ///
 class SalesOrderEditController extends AbstractEditController<SalesOrderModel> {
-  final ModelEditingController<CustomerModel> customnerController =
+  final ModelEditingController<CustomerModel> customerController =
       ModelEditingController<CustomerModel>();
+
+  final TextEditingController emailCustomerController = TextEditingController();
 
   ///
   ///
@@ -25,7 +27,8 @@ class SalesOrderEditController extends AbstractEditController<SalesOrderModel> {
     BuildContext context,
     SalesOrderModel model,
   ) async {
-    customnerController.model = model.customer;
+    customerController.model = model.customer;
+    emailCustomerController.text = model.customer!.email;
     // Load full price table.
     if (model.customer != null) {
       model.customer = await const CustomerConsumer().getById(
@@ -46,9 +49,13 @@ class SalesOrderEditController extends AbstractEditController<SalesOrderModel> {
     if (customer != null) {
       String message = '';
       bool isOK = false;
+
       // Load full customer.
       salesOrder.customer =
           await const CustomerConsumer().getById(context, customer);
+
+      customerController.model = salesOrder.customer;
+      emailCustomerController.text = salesOrder.customer!.email;
 
       if (message.isNotEmpty) {
         // ignore: use_build_context_synchronously

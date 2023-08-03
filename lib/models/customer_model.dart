@@ -33,7 +33,11 @@ class CustomerModel extends AbstractModel<int> {
   @override
   Map<String, dynamic> toSave() {
     Map<String, dynamic> map = toMap();
-    ModelUtils.toSaveMapId(map);
     return map;
+  }
+
+  @override
+  String toString() {
+    return name;
   }
 }

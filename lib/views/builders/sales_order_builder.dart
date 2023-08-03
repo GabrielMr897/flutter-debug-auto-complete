@@ -31,15 +31,6 @@ class SalesOrderBuilder extends AbstractUIBuilder<SalesOrderModel> {
   ///
   ///
   @override
-  Widget getLeading(_, SalesOrderModel model) => const FaIcon(
-        FontAwesomeIcons.solidCircle,
-        color: Colors.green,
-      );
-
-  ///
-  ///
-  ///
-  @override
   Widget getTitle(_, SalesOrderModel salesOrder) =>
       Text('Pedido nº ${salesOrder.id}');
 

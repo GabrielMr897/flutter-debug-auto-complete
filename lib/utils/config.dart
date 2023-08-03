@@ -38,7 +38,4 @@ class Config extends AbstractConfig {
   bool dark = false;
   Color alertColor = Colors.red;
   MaterialColor baseColor = Colors.amber;
-  double logoPercent = 0.3;
-  double logoMin = 250;
-  double logoMax = 280;
 }

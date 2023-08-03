@@ -36,8 +36,6 @@ class DebugAutoComplete extends StatelessWidget {
 
     await utils.loadFromAsset('config.json');
 
-    int baseInt = utils.intOrDefault('baseColor', 0xFFFFA000);
-
     String server = utils.stringOrDefault('server', 'http://192.168.1.72:8081');
 
     if (server.endsWith('/')) {
@@ -48,13 +46,9 @@ class DebugAutoComplete extends StatelessWidget {
       ..customer = utils.stringOrDefault('customer', 'bintech')
       ..name = utils.stringOrDefault('name', 'BinTech')
       ..dark = utils.boolOrDefault('dark', defaultValue: false)
-      ..baseColor = FollyUtils.createMaterialColor(intColor: baseInt)!
       ..alertColor = Color(utils.intOrDefault('alertColor', 0xFFF44336))
       ..endpoint = '$server/api/v${Config().wsVersion}'
-      ..download = '$server/download'
-      ..logoPercent = utils.doubleOrDefault('logoPercent', 0.3)
-      ..logoMin = utils.doubleOrDefault('logoMin', 250)
-      ..logoMax = utils.doubleOrDefault('logoMax', 280);
+      ..download = '$server/download';
 
     return SharedPreferences.getInstance();
   }

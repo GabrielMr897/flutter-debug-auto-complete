@@ -37,7 +37,7 @@ abstract class AbstractConsumerImpl<T extends AbstractModel<Object>>
       print('Permission: $path');
     }
 
-    return ConsumerPermission.fromJson({"eu": "nós"});
+    return ConsumerPermission.fromJson(const {"eu": "nós"});
   }
 
   ///

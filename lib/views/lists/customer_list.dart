@@ -1,6 +1,8 @@
 import 'package:debug_auto_complete/consumers/customer_consumer.dart';
 import 'package:debug_auto_complete/models/customer_model.dart';
 import 'package:debug_auto_complete/views/builders/customer_builder.dart';
+import 'package:flutter/material.dart';
+import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_list.dart';
 
 ///
@@ -17,7 +19,8 @@ class CustomerList
     super.multipleSelection = false,
     String labelPrefix = '',
   }) : super(
-            forceOffline: false,
-            consumer: const CustomerConsumer(),
-            uiBuilder: CustomerBuilder(labelPrefix: labelPrefix));
+          forceOffline: false,
+          consumer: const CustomerConsumer(),
+          uiBuilder: CustomerBuilder(labelPrefix: labelPrefix),
+        );
 }

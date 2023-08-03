@@ -83,6 +83,7 @@ class SalesOrderEdit extends AbstractEdit<SalesOrderModel, SalesOrderBuilder,
       StringField(
         labelPrefix: labelPrefix,
         label: 'Email do cliente',
+        controller: editController!.emailCustomerController,
         enabled: true,
         textAlign: TextAlign.left,
         sizeLarge: 2,
