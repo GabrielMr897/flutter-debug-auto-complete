@@ -1,5 +1,7 @@
 import 'package:debug_auto_complete/consumers/customer_consumer.dart';
+import 'package:debug_auto_complete/consumers/price_table_consumer.dart';
 import 'package:debug_auto_complete/models/customer_model.dart';
+import 'package:debug_auto_complete/models/price_table_model.dart';
 import 'package:debug_auto_complete/models/sales_order_model.dart';
 import 'package:debug_auto_complete/utils/config.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,8 @@ class SalesOrderEditController extends AbstractEditController<SalesOrderModel> {
   final ModelEditingController<CustomerModel> customerController =
       ModelEditingController<CustomerModel>();
 
-  final TextEditingController emailCustomerController = TextEditingController();
+  final ModelEditingController<PriceTableModel> priceTableController =
+      ModelEditingController<PriceTableModel>();
 
   ///
   ///
@@ -28,12 +31,13 @@ class SalesOrderEditController extends AbstractEditController<SalesOrderModel> {
     SalesOrderModel model,
   ) async {
     customerController.model = model.customer;
-    emailCustomerController.text = model.customer!.email;
+    priceTableController.model = model.priceTable;
+
     // Load full price table.
-    if (model.customer != null) {
-      model.customer = await const CustomerConsumer().getById(
+    if (model.priceTable != null) {
+      model.priceTable = await const PriceTableConsumer().getById(
         context,
-        model.customer!,
+        model.priceTable!,
       );
     }
   }
@@ -50,20 +54,58 @@ class SalesOrderEditController extends AbstractEditController<SalesOrderModel> {
       String message = '';
       bool isOK = false;
 
+      salesOrder.priceTable = null;
+      priceTableController.model = null;
+
       // Load full customer.
       salesOrder.customer =
           await const CustomerConsumer().getById(context, customer);
-
-      customerController.model = salesOrder.customer;
-      emailCustomerController.text = salesOrder.customer!.email;
 
       if (message.isNotEmpty) {
         // ignore: use_build_context_synchronously
         await FollyDialogs.dialogMessage(context: context, message: message);
       }
+
+      // Update priceTable.
+      if (salesOrder.customer!.priceTable != null) {
+        // ignore: use_build_context_synchronously
+        String? priceTableMessage = await updatePriceTable(
+          context,
+          salesOrder,
+          salesOrder.customer!.priceTable,
+        );
+
+        if (priceTableMessage != null) {
+          message += priceTableMessage;
+        }
+      }
     }
 
     return customer;
+  }
+
+  ///
+  ///
+  ///
+  Future<String?> updatePriceTable(BuildContext context,
+      SalesOrderModel salesOrder, PriceTableModel? priceTable) async {
+    if (priceTable == null) {
+      return null;
+    }
+
+    // If the selected price table is the same in sales order.
+    if ((salesOrder.priceTable?.id ?? -1) == (priceTable.id ?? -2)) {
+      return null;
+    }
+
+    // Load full price table.
+    PriceTableModel fullPriceTable =
+        await const PriceTableConsumer().getById(context, priceTable);
+
+    priceTableController.model = fullPriceTable;
+    salesOrder.priceTable = fullPriceTable;
+
+    return null;
   }
 
   ///

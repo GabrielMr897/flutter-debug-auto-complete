@@ -37,7 +37,20 @@ abstract class AbstractConsumerImpl<T extends AbstractModel<Object>>
       print('Permission: $path');
     }
 
-    return ConsumerPermission.fromJson(const {"eu": "nós"});
+    // ignore: always_specify_types
+    return ConsumerPermission.fromJson(const {
+      'message': 'OK',
+      'entity': {
+        'menu': true,
+        'view': true,
+        'insert': true,
+        'update': true,
+        'delete': true,
+        'iconName': 'cartArrowDown',
+        'name': 'Pedidos de Venda'
+      },
+      'status': 200
+    });
   }
 
   ///
@@ -70,9 +83,6 @@ abstract class AbstractConsumerImpl<T extends AbstractModel<Object>>
     Map<String, String> qsParam, {
     required bool forceOffline,
   }) async {
-    // updates the values referring to the precision
-    // of the decimal places according to the database.
-
     print('antes do doget');
 
     Map<String, dynamic> response = await MetricHttpClient.doGet(
@@ -87,7 +97,7 @@ abstract class AbstractConsumerImpl<T extends AbstractModel<Object>>
     List<dynamic> list = response['entity'] ?? <dynamic>[];
 
     return list
-        .map<T>((dynamic item) => fromJson(item as Map<String, dynamic>))
+        .map<T>((dynamic item) => fromJson(AbstractModel.fromMultiMap(item)))
         .toList();
   }
 
@@ -110,11 +120,11 @@ abstract class AbstractConsumerImpl<T extends AbstractModel<Object>>
       );
     } else {
       response = await MetricHttpClient.doPut(
-        context: context,
-        paths: routeName,
-        body: model.toSave(),
-        returnLog: returnLog,
-      );
+          context: context,
+          paths: routeName,
+          body: model.toSave(),
+          returnLog: returnLog,
+          id: model.id.toString());
     }
 
     int status = response['status'];

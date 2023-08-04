@@ -1,3 +1,4 @@
+import 'package:debug_auto_complete/home.dart';
 import 'package:debug_auto_complete/utils/config.dart';
 import 'package:debug_auto_complete/views/lists/sales_order_list.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,8 @@ class DebugAutoComplete extends StatelessWidget {
 
     await utils.loadFromAsset('config.json');
 
+    int baseInt = utils.intOrDefault('baseColor', 0xFFFFA000);
+
     String server = utils.stringOrDefault('server', 'http://192.168.1.72:8081');
 
     if (server.endsWith('/')) {
@@ -46,6 +49,7 @@ class DebugAutoComplete extends StatelessWidget {
       ..customer = utils.stringOrDefault('customer', 'bintech')
       ..name = utils.stringOrDefault('name', 'BinTech')
       ..dark = utils.boolOrDefault('dark', defaultValue: false)
+      ..baseColor = FollyUtils.createMaterialColor(intColor: baseInt)!
       ..alertColor = Color(utils.intOrDefault('alertColor', 0xFFF44336))
       ..endpoint = '$server/api/v${Config().wsVersion}'
       ..download = '$server/download';
@@ -56,7 +60,7 @@ class DebugAutoComplete extends StatelessWidget {
   ///
   ///
   ///
-  final List<AbstractRoute> _routes = <AbstractRoute>[];
+  final List<AbstractRoute> _routes = <AbstractRoute>[SalesOrderList()];
 
   ///
   ///
@@ -64,35 +68,52 @@ class DebugAutoComplete extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<SharedPreferences>(
-        future: _loadingApp(context),
-        builder: (
-          BuildContext context,
-          AsyncSnapshot<SharedPreferences> snapshot,
-        ) {
+      future: _loadingApp(context),
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<SharedPreferences> snapshot,
+      ) {
+        if (snapshot.hasData) {
           return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: Config().name,
-              theme: ThemeData(
-                brightness: Config().dark ? Brightness.dark : Brightness.light,
-                primarySwatch: Config().baseColor,
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-                textSelectionTheme: TextSelectionThemeData(
-                  cursorColor: Config().baseColor,
-                  selectionColor: Config().baseColor.withOpacity(0.4),
-                  selectionHandleColor: Config().baseColor,
-                ),
+            debugShowCheckedModeBanner: false,
+            title: Config().name,
+            theme: ThemeData(
+              brightness: Config().dark ? Brightness.dark : Brightness.light,
+              primarySwatch: Config().baseColor,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              textSelectionTheme: TextSelectionThemeData(
+                cursorColor: Config().baseColor,
+                selectionColor: Config().baseColor.withOpacity(0.4),
+                selectionHandleColor: Config().baseColor,
               ),
-              home: SalesOrderList(),
-              routes: <String, Widget Function(BuildContext)>{
-                for (AbstractRoute route in _routes) route.path: (_) => route
-              },
-              localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-                ...GlobalMaterialLocalizations.delegates,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              supportedLocales: const <Locale>[
-                Locale('pt', 'BR'),
-              ]);
-        });
+            ),
+            home: HomePage(),
+            routes: {
+              '/salesorder': (context) => SalesOrderList(),
+            },
+            localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+              ...GlobalMaterialLocalizations.delegates,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: const <Locale>[
+              Locale('pt', 'BR'),
+            ],
+          );
+        }
+
+        if (snapshot.hasError) {
+          return ColoredBox(
+            color: Colors.red,
+            child: Center(
+              child: Text(snapshot.error.toString()),
+            ),
+          );
+        }
+
+        return const ColoredBox(
+          color: Colors.transparent,
+        );
+      },
+    );
   }
 }

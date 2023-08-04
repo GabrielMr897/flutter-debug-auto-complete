@@ -108,14 +108,17 @@ class MetricHttpClient extends BaseClient {
 
     Uri uri = getUri(paths, qsParam);
 
+    Map<String, String> headers = await getHeaders(unique);
+
     if (kDebugMode) {
       print('$unique GET: $uri');
     }
 
     MetricHttpClient client = MetricHttpClient(Client());
 
-    Response response =
-        await client.get(uri).timeout(Duration(milliseconds: timeout));
+    Response response = await client
+        .get(uri, headers: headers)
+        .timeout(Duration(milliseconds: timeout));
 
     client.close();
 
@@ -202,19 +205,24 @@ class MetricHttpClient extends BaseClient {
   ///
   ///
   ///
-  static Future<Map<String, dynamic>> doPut({
-    required BuildContext context,
-    required List<String> paths,
-    required Map<String, dynamic> body,
-    Map<String, String> qsParam = const <String, String>{},
-    int? timeout,
-    bool returnLog = false,
-  }) async {
+  static Future<Map<String, dynamic>> doPut(
+      {required BuildContext context,
+      required List<String> paths,
+      required Map<String, dynamic> body,
+      Map<String, String> qsParam = const <String, String>{},
+      int? timeout,
+      bool returnLog = false,
+      String? id}) async {
     String unique = UniqueKey().toString();
 
     timeout = getTimeout(timeout);
 
-    Uri uri = getUri(paths, qsParam);
+    List<String> newPathList = List.from(paths);
+    if (id != null) {
+      newPathList.add(id);
+    }
+
+    Uri uri = getUri(newPathList, qsParam);
 
     Map<String, String> headers = await getHeaders(unique);
 
@@ -227,15 +235,9 @@ class MetricHttpClient extends BaseClient {
 
     MetricHttpClient client = MetricHttpClient(Client());
 
-    Response response = await client
-        .put(
-          uri,
-          encoding: Encoding.getByName('utf-8'),
-          body: json.encode(body),
-          headers: headers,
-        )
-        .timeout(Duration(milliseconds: timeout));
-
+    Response response =
+        await client.put(uri, body: json.encode(body), headers: headers);
+    print(json.encode(body));
     client.close();
 
     return _process(context, response, unique, returnLog);

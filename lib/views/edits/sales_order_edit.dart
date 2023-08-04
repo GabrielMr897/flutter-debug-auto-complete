@@ -1,5 +1,6 @@
 import 'package:debug_auto_complete/consumers/sales_order_consumer.dart';
 import 'package:debug_auto_complete/models/customer_model.dart';
+import 'package:debug_auto_complete/models/price_table_model.dart';
 import 'package:debug_auto_complete/models/sales_order_model.dart';
 import 'package:debug_auto_complete/views/builders/sales_order_builder.dart';
 import 'package:debug_auto_complete/views/edits/controllers/sales_order_edit_controller.dart';
@@ -80,16 +81,21 @@ class SalesOrderEdit extends AbstractEdit<SalesOrderModel, SalesOrderBuilder,
         onSaved: (CustomerModel? value) => model.customer = value,
       ),
 
-      StringField(
+      ModelField<PriceTableModel>(
         labelPrefix: labelPrefix,
-        label: 'Email do cliente',
-        controller: editController!.emailCustomerController,
+        label: 'Tabela de Preço*',
+        controller: editController!.priceTableController,
         enabled: true,
-        textAlign: TextAlign.left,
-        sizeLarge: 2,
+        routeBuilder: (BuildContext context) => CustomerList(
+          selection: true,
+        ),
+        validator: (PriceTableModel? value) =>
+            value == null ? 'Informe a tabela de preço.' : null,
+        sizeLarge: 5,
         sizeMedium: 6,
         sizeSmall: 12,
-      ),
+        onSaved: (PriceTableModel? value) => model.priceTable = value,
+      )
     ];
   }
 }
@@ -114,7 +120,7 @@ class SalesOrderEditFromSalesOrderList extends SalesOrderEdit
           uiBuilder,
           editController: editController ?? SalesOrderEditController(),
           consumer,
-          edit: edit,
+          edit: true,
           key: key,
         );
 

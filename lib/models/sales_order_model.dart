@@ -1,5 +1,7 @@
 import 'package:debug_auto_complete/consumers/customer_consumer.dart';
+import 'package:debug_auto_complete/consumers/price_table_consumer.dart';
 import 'package:debug_auto_complete/models/customer_model.dart';
+import 'package:debug_auto_complete/models/price_table_model.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/model_utils.dart';
@@ -9,6 +11,7 @@ import 'package:folly_fields/util/model_utils.dart';
 ///
 class SalesOrderModel extends AbstractModel<int> {
   CustomerModel? customer;
+  PriceTableModel? priceTable;
 
   ///
   ///
@@ -28,6 +31,10 @@ class SalesOrderModel extends AbstractModel<int> {
           map['customer'],
           const CustomerConsumer(),
         ),
+        priceTable = ModelUtils.fromJsonModel(
+          map['price_table'],
+          const PriceTableConsumer(),
+        ),
         super.fromJson();
 
   ///
@@ -37,6 +44,7 @@ class SalesOrderModel extends AbstractModel<int> {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
     map['customer'] = ModelUtils.toMapModel(customer);
+    map['price_table'] = ModelUtils.toMapModel(priceTable);
     return map;
   }
 
@@ -47,6 +55,12 @@ class SalesOrderModel extends AbstractModel<int> {
   Map<String, dynamic> toSave() {
     Map<String, dynamic> map = toMap();
     ModelUtils.toSaveMapId(map['customer']);
+    ModelUtils.toSaveMapId(map['price_table']);
     return map;
+  }
+
+  @override
+  String toString() {
+    return id.toString();
   }
 }
