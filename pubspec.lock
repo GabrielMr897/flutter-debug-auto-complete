@@ -209,10 +209,10 @@ packages:
     dependency: "direct main"
     description:
       name: folly_fields
-      sha256: a8c03e494eb4701aebf4da942a42d2f804b5d7e551e63bfa462670125ffaee27
+      sha256: fda70ba5dd830af0aac9e61b96f6d61dfc2e27f340867605bc705d9524fdf6f4
       url: "https://pub.dev"
     source: hosted
-    version: "0.20.5"
+    version: "0.20.6"
   font_awesome_flutter:
     dependency: "direct main"
     description:
