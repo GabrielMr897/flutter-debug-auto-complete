@@ -1,3 +1,4 @@
+import 'package:debug_auto_complete/consumers/mock_data.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
@@ -40,7 +41,25 @@ abstract class AbstractConsumerImpl<T extends AbstractModel<Object>>
     BuildContext context,
     T model,
   ) async {
-    // TODO(edufolly): Implement mock.
+    switch (routeName.first) {
+      case 'price_table':
+        switch (model.id) {
+          case 1:
+            return MockData.priceTable1 as T;
+          case 2:
+            return MockData.priceTable2 as T;
+        }
+        break;
+      case 'customer':
+        switch (model.id) {
+          case 1:
+            return MockData.customer1 as T;
+          case 2:
+            return MockData.customer2 as T;
+        }
+        break;
+    }
+
     return model;
   }
 
@@ -53,7 +72,15 @@ abstract class AbstractConsumerImpl<T extends AbstractModel<Object>>
     Map<String, String> qsParam, {
     required bool forceOffline,
   }) async {
-    // TODO(edufolly): Implement mock.
+    if ((qsParam['f'] ?? '0') == '0') {
+      switch (routeName.first) {
+        case 'price_table':
+          return MockData.priceTables as List<T>;
+        case 'customer':
+          return MockData.customers as List<T>;
+      }
+    }
+
     return <T>[];
   }
 
@@ -64,7 +91,8 @@ abstract class AbstractConsumerImpl<T extends AbstractModel<Object>>
   Future<bool> saveOrUpdate(
     BuildContext context,
     T model,
-  ) async => true;
+  ) async =>
+      true;
 
   ///
   ///
@@ -73,5 +101,6 @@ abstract class AbstractConsumerImpl<T extends AbstractModel<Object>>
   Future<bool> delete(
     BuildContext context,
     T model,
-  ) async => true;
+  ) async =>
+      true;
 }

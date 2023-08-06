@@ -1,5 +1,5 @@
-import 'package:debug_auto_complete/home.dart';
 import 'package:debug_auto_complete/utils/config.dart';
+import 'package:debug_auto_complete/views/lists/sales_order_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:folly_fields/folly_fields.dart';
@@ -55,7 +55,7 @@ class DebugAutoComplete extends StatelessWidget {
                 selectionHandleColor: Config().baseColor,
               ),
             ),
-            home: const HomePage(),
+            home: SalesOrderList(),
             localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
               ...GlobalMaterialLocalizations.delegates,
               GlobalWidgetsLocalizations.delegate,

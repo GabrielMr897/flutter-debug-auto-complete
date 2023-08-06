@@ -7,21 +7,14 @@ import 'package:folly_fields/util/model_utils.dart';
 ///
 ///
 class CustomerModel extends AbstractModel<int> {
-  String name;
-  String lastName;
-  int age;
-  String email;
+  String name = '';
+  String lastName = '';
   PriceTableModel? priceTable;
 
   ///
   ///
   ///
-  CustomerModel({
-    required this.name,
-    required this.lastName,
-    required this.age,
-    required this.email,
-  });
+  CustomerModel();
 
   ///
   ///
@@ -29,8 +22,6 @@ class CustomerModel extends AbstractModel<int> {
   CustomerModel.fromJson(super.map)
       : name = map['name'],
         lastName = map['lastName'],
-        age = map['age'],
-        email = map['email'],
         priceTable = ModelUtils.fromJsonModel(
           map['price_table'],
           const PriceTableConsumer(),
@@ -45,8 +36,6 @@ class CustomerModel extends AbstractModel<int> {
     Map<String, dynamic> map = super.toMap();
     map['name'] = name;
     map['lastName'] = lastName;
-    map['age'] = age;
-    map['email'] = email;
     map['price_table'] = ModelUtils.toMapModel(priceTable);
     return map;
   }

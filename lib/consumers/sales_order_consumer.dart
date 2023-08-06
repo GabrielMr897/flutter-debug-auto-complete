@@ -8,7 +8,7 @@ class SalesOrderConsumer extends AbstractConsumerImpl<SalesOrderModel> {
   ///
   ///
   ///
-  const SalesOrderConsumer() : super(const <String>['salesorder']);
+  const SalesOrderConsumer() : super(const <String>['sales_order']);
 
   ///
   ///
