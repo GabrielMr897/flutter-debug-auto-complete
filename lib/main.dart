@@ -31,28 +31,28 @@ class DebugAutoComplete extends StatelessWidget {
   ///
   ///
   Future<SharedPreferences> _loadingApp(BuildContext context) async {
-    Config config = Config();
-
-    ConfigUtils utils = ConfigUtils(context);
-
-    await utils.loadFromAsset('config.json');
-
-    int baseInt = utils.intOrDefault('baseColor', 0xFFFFA000);
-
-    String server = utils.stringOrDefault('server', 'http://192.168.1.72:8081');
-
-    if (server.endsWith('/')) {
-      server = server.substring(0, server.length - 1);
-    }
-
-    config
-      ..customer = utils.stringOrDefault('customer', 'bintech')
-      ..name = utils.stringOrDefault('name', 'BinTech')
-      ..dark = utils.boolOrDefault('dark', defaultValue: false)
-      ..baseColor = FollyUtils.createMaterialColor(intColor: baseInt)!
-      ..alertColor = Color(utils.intOrDefault('alertColor', 0xFFF44336))
-      ..endpoint = '$server/api/v${Config().wsVersion}'
-      ..download = '$server/download';
+    // Config config = Config();
+    //
+    // ConfigUtils utils = ConfigUtils(context);
+    //
+    // await utils.loadFromAsset('config.json');
+    //
+    // int baseInt = utils.intOrDefault('baseColor', 0xFFFFA000);
+    //
+    // String server = utils.stringOrDefault('server', 'http://192.168.1.72:8081');
+    //
+    // if (server.endsWith('/')) {
+    //   server = server.substring(0, server.length - 1);
+    // }
+    //
+    // config
+    //   ..customer = utils.stringOrDefault('customer', 'bintech')
+    //   ..name = utils.stringOrDefault('name', 'BinTech')
+    //   ..dark = utils.boolOrDefault('dark', defaultValue: false)
+    //   ..baseColor = FollyUtils.createMaterialColor(intColor: baseInt)!
+    //   ..alertColor = Color(utils.intOrDefault('alertColor', 0xFFF44336))
+    //   ..endpoint = '$server/api/v${Config().wsVersion}'
+    //   ..download = '$server/download';
 
     return SharedPreferences.getInstance();
   }
@@ -60,7 +60,9 @@ class DebugAutoComplete extends StatelessWidget {
   ///
   ///
   ///
-  final List<AbstractRoute> _routes = <AbstractRoute>[SalesOrderList()];
+  // final List<AbstractRoute> _routes = <AbstractRoute>[
+  //   SalesOrderList(),
+  // ];
 
   ///
   ///
@@ -88,9 +90,9 @@ class DebugAutoComplete extends StatelessWidget {
               ),
             ),
             home: HomePage(),
-            routes: {
-              '/salesorder': (context) => SalesOrderList(),
-            },
+            // routes: <String, WidgetBuilder> {
+            //   '/salesorder': (context) => SalesOrderList(),
+            // },
             localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
               ...GlobalMaterialLocalizations.delegates,
               GlobalWidgetsLocalizations.delegate,
