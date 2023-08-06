@@ -3,13 +3,9 @@ import 'package:debug_auto_complete/consumers/price_table_consumer.dart';
 import 'package:debug_auto_complete/models/customer_model.dart';
 import 'package:debug_auto_complete/models/price_table_model.dart';
 import 'package:debug_auto_complete/models/sales_order_model.dart';
-import 'package:debug_auto_complete/utils/config.dart';
 import 'package:flutter/material.dart';
-import 'package:folly_fields/controllers/date_editing_controller.dart';
 import 'package:folly_fields/controllers/model_editing_controller.dart';
-import 'package:folly_fields/controllers/new_decimal_editing_controller.dart';
 import 'package:folly_fields/crud/abstract_edit_controller.dart';
-import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 
 ///
@@ -52,7 +48,7 @@ class SalesOrderEditController extends AbstractEditController<SalesOrderModel> {
   ) async {
     if (customer != null) {
       String message = '';
-      bool isOK = false;
+      // bool isOK = false;
 
       salesOrder.priceTable = null;
       priceTableController.model = null;
@@ -87,8 +83,11 @@ class SalesOrderEditController extends AbstractEditController<SalesOrderModel> {
   ///
   ///
   ///
-  Future<String?> updatePriceTable(BuildContext context,
-      SalesOrderModel salesOrder, PriceTableModel? priceTable) async {
+  Future<String?> updatePriceTable(
+    BuildContext context,
+    SalesOrderModel salesOrder,
+    PriceTableModel? priceTable,
+  ) async {
     if (priceTable == null) {
       return null;
     }

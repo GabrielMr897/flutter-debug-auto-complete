@@ -1,8 +1,6 @@
+import 'package:debug_auto_complete/models/customer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../../models/customer_model.dart';
 
 ///
 ///

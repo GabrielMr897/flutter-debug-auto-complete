@@ -1,12 +1,8 @@
 import 'package:debug_auto_complete/home.dart';
 import 'package:debug_auto_complete/utils/config.dart';
-import 'package:debug_auto_complete/views/lists/sales_order_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/folly_fields.dart';
-import 'package:folly_fields/util/config_utils.dart';
-import 'package:folly_fields/util/folly_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ///
@@ -15,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   FollyFields.start(Config());
-  runApp(DebugAutoComplete());
+  runApp(const DebugAutoComplete());
 }
 
 ///
@@ -25,44 +21,14 @@ class DebugAutoComplete extends StatelessWidget {
   ///
   ///
   ///
-  DebugAutoComplete({super.key});
+  const DebugAutoComplete({super.key});
 
   ///
   ///
   ///
   Future<SharedPreferences> _loadingApp(BuildContext context) async {
-    // Config config = Config();
-    //
-    // ConfigUtils utils = ConfigUtils(context);
-    //
-    // await utils.loadFromAsset('config.json');
-    //
-    // int baseInt = utils.intOrDefault('baseColor', 0xFFFFA000);
-    //
-    // String server = utils.stringOrDefault('server', 'http://192.168.1.72:8081');
-    //
-    // if (server.endsWith('/')) {
-    //   server = server.substring(0, server.length - 1);
-    // }
-    //
-    // config
-    //   ..customer = utils.stringOrDefault('customer', 'bintech')
-    //   ..name = utils.stringOrDefault('name', 'BinTech')
-    //   ..dark = utils.boolOrDefault('dark', defaultValue: false)
-    //   ..baseColor = FollyUtils.createMaterialColor(intColor: baseInt)!
-    //   ..alertColor = Color(utils.intOrDefault('alertColor', 0xFFF44336))
-    //   ..endpoint = '$server/api/v${Config().wsVersion}'
-    //   ..download = '$server/download';
-
     return SharedPreferences.getInstance();
   }
-
-  ///
-  ///
-  ///
-  // final List<AbstractRoute> _routes = <AbstractRoute>[
-  //   SalesOrderList(),
-  // ];
 
   ///
   ///
@@ -89,10 +55,7 @@ class DebugAutoComplete extends StatelessWidget {
                 selectionHandleColor: Config().baseColor,
               ),
             ),
-            home: HomePage(),
-            // routes: <String, WidgetBuilder> {
-            //   '/salesorder': (context) => SalesOrderList(),
-            // },
+            home: const HomePage(),
             localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
               ...GlobalMaterialLocalizations.delegates,
               GlobalWidgetsLocalizations.delegate,

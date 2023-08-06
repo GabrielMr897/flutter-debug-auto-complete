@@ -19,12 +19,11 @@ class SalesOrderList extends AbstractList<SalesOrderModel, SalesOrderBuilder,
     super.key,
     super.selection = false,
     super.multipleSelection = false,
-    String labelPrefix = '',
     bool filter = false,
   }) : super(
           forceOffline: false,
           consumer: const SalesOrderConsumer(),
-          uiBuilder: SalesOrderBuilder(labelPrefix: labelPrefix),
+          uiBuilder: const SalesOrderBuilder(),
           qsParam: <String, String>{'filter': filter.toString()},
           onAdd: (
             BuildContext context,

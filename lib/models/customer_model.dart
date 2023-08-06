@@ -3,6 +3,9 @@ import 'package:debug_auto_complete/models/price_table_model.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/util/model_utils.dart';
 
+///
+///
+///
 class CustomerModel extends AbstractModel<int> {
   String name;
   String lastName;
@@ -10,13 +13,20 @@ class CustomerModel extends AbstractModel<int> {
   String email;
   PriceTableModel? priceTable;
 
-  CustomerModel(
-      {required this.name,
-      required this.lastName,
-      required this.age,
-      required this.email});
+  ///
+  ///
+  ///
+  CustomerModel({
+    required this.name,
+    required this.lastName,
+    required this.age,
+    required this.email,
+  });
 
-  CustomerModel.fromJson(Map<String, dynamic> map)
+  ///
+  ///
+  ///
+  CustomerModel.fromJson(super.map)
       : name = map['name'],
         lastName = map['lastName'],
         age = map['age'],
@@ -25,8 +35,11 @@ class CustomerModel extends AbstractModel<int> {
           map['price_table'],
           const PriceTableConsumer(),
         ),
-        super.fromJson(map);
+        super.fromJson();
 
+  ///
+  ///
+  ///
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
@@ -38,6 +51,9 @@ class CustomerModel extends AbstractModel<int> {
     return map;
   }
 
+  ///
+  ///
+  ///
   @override
   Map<String, dynamic> toSave() {
     Map<String, dynamic> map = toMap();
@@ -45,8 +61,9 @@ class CustomerModel extends AbstractModel<int> {
     return map;
   }
 
+  ///
+  ///
+  ///
   @override
-  String toString() {
-    return name;
-  }
+  String toString() => name;
 }

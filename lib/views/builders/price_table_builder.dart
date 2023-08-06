@@ -1,7 +1,6 @@
 import 'package:debug_auto_complete/models/price_table_model.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
@@ -25,7 +24,7 @@ class PriceTableBuilder extends AbstractUIBuilder<PriceTableModel> {
   ///
   ///
   @override
-  String plural(_) => 'Tabelas de preço';
+  String plural(_) => 'Tabelas de Preço';
 
   ///
   ///

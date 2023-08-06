@@ -8,15 +8,9 @@ import 'package:debug_auto_complete/views/lists/customer_list.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_edit.dart';
 import 'package:folly_fields/crud/abstract_function.dart';
-import 'package:folly_fields/fields/date_field.dart';
-import 'package:folly_fields/fields/list_field.dart';
 import 'package:folly_fields/fields/model_field.dart';
-import 'package:folly_fields/fields/new_decimal_field.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/responsive/responsive.dart';
-import 'package:folly_fields/util/decimal.dart';
-import 'package:folly_fields/util/folly_validators.dart';
-import 'package:folly_fields/widgets/folly_dialogs.dart';
 
 ///
 ///
@@ -67,10 +61,8 @@ class SalesOrderEdit extends AbstractEdit<SalesOrderModel, SalesOrderBuilder,
         labelPrefix: labelPrefix,
         label: 'Cliente*',
         initialValue: model.customer,
-        enabled: true,
-        routeBuilder: (BuildContext context) => CustomerList(
-          selection: true,
-        ),
+        routeBuilder: (BuildContext context) =>
+            const CustomerList(selection: true),
         acceptChange: (CustomerModel? customer) async =>
             editController!.updateCustomer(context, model, customer),
         validator: (CustomerModel? value) =>
@@ -85,10 +77,8 @@ class SalesOrderEdit extends AbstractEdit<SalesOrderModel, SalesOrderBuilder,
         labelPrefix: labelPrefix,
         label: 'Tabela de Preço*',
         controller: editController!.priceTableController,
-        enabled: true,
-        routeBuilder: (BuildContext context) => CustomerList(
-          selection: true,
-        ),
+        routeBuilder: (BuildContext context) =>
+            const CustomerList(selection: true),
         validator: (PriceTableModel? value) =>
             value == null ? 'Informe a tabela de preço.' : null,
         sizeLarge: 5,
@@ -113,7 +103,6 @@ class SalesOrderEditFromSalesOrderList extends SalesOrderEdit
     SalesOrderBuilder uiBuilder = const SalesOrderBuilder(),
     SalesOrderEditController? editController,
     SalesOrderConsumer consumer = const SalesOrderConsumer(),
-    bool edit = true,
     Key? key,
   }) : super(
           model ?? SalesOrderModel(),
