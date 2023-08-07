@@ -3,7 +3,6 @@ import 'package:debug_auto_complete/consumers/price_table_consumer.dart';
 import 'package:debug_auto_complete/models/customer_model.dart';
 import 'package:debug_auto_complete/models/price_table_model.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
-import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/model_utils.dart';
 
 ///
@@ -59,8 +58,9 @@ class SalesOrderModel extends AbstractModel<int> {
     return map;
   }
 
+  ///
+  ///
+  ///
   @override
-  String toString() {
-    return id.toString();
-  }
+  String toString() => '$id';
 }

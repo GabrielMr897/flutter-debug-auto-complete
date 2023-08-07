@@ -3,14 +3,9 @@ import 'package:debug_auto_complete/consumers/price_table_consumer.dart';
 import 'package:debug_auto_complete/models/customer_model.dart';
 import 'package:debug_auto_complete/models/price_table_model.dart';
 import 'package:debug_auto_complete/models/sales_order_model.dart';
-import 'package:debug_auto_complete/utils/config.dart';
 import 'package:flutter/material.dart';
-import 'package:folly_fields/controllers/date_editing_controller.dart';
 import 'package:folly_fields/controllers/model_editing_controller.dart';
-import 'package:folly_fields/controllers/new_decimal_editing_controller.dart';
 import 'package:folly_fields/crud/abstract_edit_controller.dart';
-import 'package:folly_fields/util/decimal.dart';
-import 'package:folly_fields/widgets/folly_dialogs.dart';
 
 ///
 ///
@@ -50,34 +45,20 @@ class SalesOrderEditController extends AbstractEditController<SalesOrderModel> {
     SalesOrderModel salesOrder,
     CustomerModel? customer,
   ) async {
+    priceTableController.model = null;
+    salesOrder.priceTable = null;
+
     if (customer != null) {
-      String message = '';
-      bool isOK = false;
-
-      salesOrder.priceTable = null;
-      priceTableController.model = null;
-
       // Load full customer.
-      salesOrder.customer =
+      CustomerModel localCustomer =
           await const CustomerConsumer().getById(context, customer);
 
-      if (message.isNotEmpty) {
-        // ignore: use_build_context_synchronously
-        await FollyDialogs.dialogMessage(context: context, message: message);
-      }
+      customer = localCustomer;
+      salesOrder.customer = localCustomer;
 
       // Update priceTable.
-      if (salesOrder.customer!.priceTable != null) {
-        // ignore: use_build_context_synchronously
-        String? priceTableMessage = await updatePriceTable(
-          context,
-          salesOrder,
-          salesOrder.customer!.priceTable,
-        );
-
-        if (priceTableMessage != null) {
-          message += priceTableMessage;
-        }
+      if (localCustomer.priceTable != null) {
+        await updatePriceTable(context, salesOrder, localCustomer.priceTable);
       }
     }
 
@@ -87,8 +68,11 @@ class SalesOrderEditController extends AbstractEditController<SalesOrderModel> {
   ///
   ///
   ///
-  Future<String?> updatePriceTable(BuildContext context,
-      SalesOrderModel salesOrder, PriceTableModel? priceTable) async {
+  Future<PriceTableModel?> updatePriceTable(
+    BuildContext context,
+    SalesOrderModel salesOrder,
+    PriceTableModel? priceTable,
+  ) async {
     if (priceTable == null) {
       return null;
     }
@@ -102,15 +86,18 @@ class SalesOrderEditController extends AbstractEditController<SalesOrderModel> {
     PriceTableModel fullPriceTable =
         await const PriceTableConsumer().getById(context, priceTable);
 
-    priceTableController.model = fullPriceTable;
     salesOrder.priceTable = fullPriceTable;
+    priceTableController.model = fullPriceTable;
 
-    return null;
+    return fullPriceTable;
   }
 
   ///
   ///
   ///
   @override
-  Future<void> dispose(BuildContext context) async {}
+  Future<void> dispose(BuildContext context) async {
+    customerController.dispose();
+    priceTableController.dispose();
+  }
 }

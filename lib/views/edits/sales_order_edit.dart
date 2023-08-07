@@ -5,18 +5,13 @@ import 'package:debug_auto_complete/models/sales_order_model.dart';
 import 'package:debug_auto_complete/views/builders/sales_order_builder.dart';
 import 'package:debug_auto_complete/views/edits/controllers/sales_order_edit_controller.dart';
 import 'package:debug_auto_complete/views/lists/customer_list.dart';
+import 'package:debug_auto_complete/views/lists/price_table_list.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_edit.dart';
 import 'package:folly_fields/crud/abstract_function.dart';
-import 'package:folly_fields/fields/date_field.dart';
-import 'package:folly_fields/fields/list_field.dart';
 import 'package:folly_fields/fields/model_field.dart';
-import 'package:folly_fields/fields/new_decimal_field.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/responsive/responsive.dart';
-import 'package:folly_fields/util/decimal.dart';
-import 'package:folly_fields/util/folly_validators.dart';
-import 'package:folly_fields/widgets/folly_dialogs.dart';
 
 ///
 ///
@@ -26,14 +21,13 @@ class SalesOrderEdit extends AbstractEdit<SalesOrderModel, SalesOrderBuilder,
   ///
   ///
   ///
-  const SalesOrderEdit(
+  SalesOrderEdit(
     super.model,
     super.uiBuilder,
     super.consumer, {
     required super.edit,
-    required SalesOrderEditController super.editController,
     super.key,
-  });
+  }) : super(editController: SalesOrderEditController());
 
   ///
   ///
@@ -64,38 +58,33 @@ class SalesOrderEdit extends AbstractEdit<SalesOrderModel, SalesOrderBuilder,
 
       /// Customer
       ModelField<CustomerModel>(
-        labelPrefix: labelPrefix,
         label: 'Cliente*',
-        initialValue: model.customer,
-        enabled: true,
-        routeBuilder: (BuildContext context) => CustomerList(
-          selection: true,
-        ),
+        // initialValue: model.customer,
+        controller: editController!.customerController,
+        routeBuilder: (BuildContext context) =>
+            const CustomerList(selection: true),
         acceptChange: (CustomerModel? customer) async =>
-            editController!.updateCustomer(context, model, customer),
+            editController.updateCustomer(context, model, customer),
         validator: (CustomerModel? value) =>
             value == null ? 'Informe o cliente.' : null,
-        sizeLarge: 5,
+        onSaved: (CustomerModel? value) => model.customer = value,
         sizeMedium: 6,
         sizeSmall: 12,
-        onSaved: (CustomerModel? value) => model.customer = value,
       ),
 
+      /// Price Table
       ModelField<PriceTableModel>(
-        labelPrefix: labelPrefix,
         label: 'Tabela de Preço*',
-        controller: editController!.priceTableController,
-        enabled: true,
-        routeBuilder: (BuildContext context) => CustomerList(
-          selection: true,
-        ),
+        // initialValue: model.priceTable,
+        controller: editController.priceTableController,
+        routeBuilder: (BuildContext context) =>
+            const PriceTableList(selection: true),
         validator: (PriceTableModel? value) =>
             value == null ? 'Informe a tabela de preço.' : null,
-        sizeLarge: 5,
+        onSaved: (PriceTableModel? value) => model.priceTable = value,
         sizeMedium: 6,
         sizeSmall: 12,
-        onSaved: (PriceTableModel? value) => model.priceTable = value,
-      )
+      ),
     ];
   }
 }
@@ -111,14 +100,13 @@ class SalesOrderEditFromSalesOrderList extends SalesOrderEdit
   SalesOrderEditFromSalesOrderList({
     SalesOrderModel? model,
     SalesOrderBuilder uiBuilder = const SalesOrderBuilder(),
-    SalesOrderEditController? editController,
+    // SalesOrderEditController? editController,
     SalesOrderConsumer consumer = const SalesOrderConsumer(),
-    bool edit = true,
     Key? key,
   }) : super(
           model ?? SalesOrderModel(),
           uiBuilder,
-          editController: editController ?? SalesOrderEditController(),
+          // editController: editController ?? SalesOrderEditController(),
           consumer,
           edit: true,
           key: key,
@@ -153,7 +141,7 @@ class SalesOrderEditFromSalesOrderList extends SalesOrderEdit
       SalesOrderEdit(
         SalesOrderModel.toCopy(object),
         const SalesOrderBuilder(),
-        editController: SalesOrderEditController(),
+        // editController: SalesOrderEditController(),
         const SalesOrderConsumer(),
         edit: true,
       );

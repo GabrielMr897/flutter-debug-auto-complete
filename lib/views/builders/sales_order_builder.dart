@@ -1,7 +1,6 @@
 import 'package:debug_auto_complete/models/sales_order_model.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
@@ -39,5 +38,5 @@ class SalesOrderBuilder extends AbstractUIBuilder<SalesOrderModel> {
   ///
   @override
   Widget getSubtitle(_, SalesOrderModel salesOrder) =>
-      Text(salesOrder.customer!.name);
+      Text(salesOrder.customer?.name ?? 'Sem cliente');
 }
